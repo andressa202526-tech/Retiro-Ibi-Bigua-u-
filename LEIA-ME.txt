@@ -1,0 +1,28 @@
+RETIRO 2027 — IBI BIGUAÇU
+
+Esta é uma primeira versão estática, pronta para publicar no GitHub Pages.
+NÃO é um sistema de inscrições e pagamentos completo.
+
+COMO PUBLICAR
+1. Crie um repositório novo no GitHub (por exemplo, retiro-2027).
+2. Envie index.html, style.css e script.js na raiz do repositório.
+3. Vá a Settings > Pages > Build and deployment.
+4. Selecione Deploy from a branch, main, /(root), Save.
+5. Aguarde a publicação e abra a URL informada pelo GitHub.
+
+O QUE FUNCIONA
+- Página responsiva do evento
+- Campos de nome e WhatsApp
+- Categoria adulto/criança
+- Valores e parcelas automáticos
+- Resumo copiável da pré-inscrição
+
+O QUE AINDA NÃO FUNCIONA
+- Salvar inscrições no servidor
+- Login de administradores e painel financeiro
+- Confirmação de Pix ou cartão
+- Cobrança online e webhooks
+
+Para a versão completa, será necessário backend/banco de dados com autenticação e regras de acesso, integração com provedor de pagamentos e tratamento adequado de dados pessoais. Não publique credenciais secretas no GitHub.
+
+Valores usados: Adulto R$350; criança de 7 a 11 anos R$175; 4 parcelas iguais. Confirme as regras das outras faixas etárias antes de abrir inscrições reais.
