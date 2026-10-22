@@ -14,8 +14,8 @@ body {
   place-items: center;
   background: radial-gradient(circle at bottom,
     #713517, #171312 75%);
-  color: #fff3e7;
   font-family: Arial, sans-serif;
+  color: #fff3e7;
   padding: 20px;
 }
 .card {
@@ -27,8 +27,7 @@ body {
   border-radius: 22px;
   text-align: center;
 }
-.flame { font-size: 55px; }
-h1 { color: #f5a35c; margin-bottom: 5px; }
+h1 { color: #f5a35c; }
 p { color: #e5c7b1; }
 input, button {
   width: 100%;
@@ -39,55 +38,161 @@ input, button {
 }
 input {
   background: #fffaf5;
-  color: #29211e;
   border: 0;
 }
 button {
-  background: linear-gradient(90deg,
-    #ffb76b, #e87931);
+  background: linear-gradient(90deg,#ffb76b,#e87931);
   color: #231813;
   border: 0;
   font-weight: bold;
-  cursor: pointer;
-}
-#mensagem {
-  font-size: 14px;
-  margin-top: 20px;
 }
 a { color: #ffb76b; }
+[hidden] { display: none !important; }
+#mensagem { margin-top: 20px; }
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="flame">🔥</div>
+  <div style="font-size:55px">🔥</div>
   <h1>REACENDE A CHAMA</h1>
   <p>IBI BIGUAÇU • RETIRO 2027</p>
   <h2>Acesso da Diretoria</h2>
-  <p>Área exclusiva da organização</p>
 
   <form id="login">
-    <input type="email" id="email"
+    <input id="email" type="email"
       placeholder="Seu e-mail" required>
-    <input type="password" id="senha"
+    <input id="senha" type="password"
       placeholder="Sua senha" required>
     <button type="submit">Entrar no sistema</button>
   </form>
 
-  <p id="mensagem" role="status">
-    Login em preparação.
-  </p>
+  <form id="novaSenha" hidden>
+    <p>Defina sua senha de acesso</p>
+    <input id="senhaNova" type="password"
+      placeholder="Nova senha (mínimo 12 caracteres)"
+      minlength="12" required>
+    <button type="submit">Salvar minha senha</button>
+  </form>
 
+  <div id="conectado" hidden>
+    <p>Login realizado com sucesso!</p>
+    <p>O painel da diretoria ainda será configurado.</p>
+    <button id="sair" type="button">Sair</button>
+  </div>
+
+  <p id="mensagem" role="status">
+    Preparando conexão segura...
+  </p>
   <a href="index.html">Voltar ao retiro</a>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-document.getElementById("login")
-.addEventListener("submit", function(event) {
-  event.preventDefault();
-  document.getElementById("mensagem")
-    .textContent =
-    "A conexão segura com o Supabase ainda será configurada. Nenhum login foi realizado.";
+const URL_SUPABASE =
+  "https://bkzdjqjqjjcrojyajuvr.supabase.co";
+
+const CHAVE_PUBLICA =
+  "sb_publishable_B7aEHrRhyIDIsB_5Bpzy7w_uyGhATtQ";
+
+const mensagem = document.getElementById("mensagem");
+const login = document.getElementById("login");
+const novaSenha = document.getElementById("novaSenha");
+const conectado = document.getElementById("conectado");
+
+const parametros = new URLSearchParams(
+  window.location.hash.substring(1)
+);
+const convite = ["invite", "recovery"].includes(
+  parametros.get("type")
+);
+
+let cliente;
+
+function avisar(texto) {
+  mensagem.textContent = texto;
+}
+
+function mostrar(elemento) {
+  login.hidden = elemento !== login;
+  novaSenha.hidden = elemento !== novaSenha;
+  conectado.hidden = elemento !== conectado;
+}
+
+async function iniciar() {
+  try {
+    cliente = window.supabase.createClient(
+      URL_SUPABASE, CHAVE_PUBLICA
+    );
+
+    const { data, error } =
+      await cliente.auth.getSession();
+
+    if (error) throw error;
+
+    if (parametros.get("error")) {
+      avisar("O link é inválido ou expirou. Solicite um novo convite.");
+      return;
+    }
+
+    if (data.session && convite) {
+      mostrar(novaSenha);
+      avisar("Convite recebido. Crie sua senha.");
+    } else if (data.session) {
+      mostrar(conectado);
+      avisar("Autenticação concluída.");
+    } else {
+      mostrar(login);
+      avisar("Entre com seu e-mail e senha.");
+    }
+  } catch (erro) {
+    avisar("Não foi possível conectar ao Supabase.");
+  }
+}
+
+login.addEventListener("submit", async (evento) => {
+  evento.preventDefault();
+  avisar("Verificando acesso...");
+
+  const { error } = await cliente.auth.signInWithPassword({
+    email: document.getElementById("email").value,
+    password: document.getElementById("senha").value
+  });
+
+  if (error) {
+    avisar("Não foi possível entrar. Confira seus dados e a confirmação do convite.");
+    return;
+  }
+
+  mostrar(conectado);
+  avisar("Autenticação concluída.");
 });
+
+novaSenha.addEventListener("submit", async (evento) => {
+  evento.preventDefault();
+  avisar("Salvando sua senha...");
+
+  const { error } = await cliente.auth.updateUser({
+    password: document.getElementById("senhaNova").value
+  });
+
+  if (error) {
+    avisar("Não foi possível salvar. Solicite um novo convite se necessário.");
+    return;
+  }
+
+  mostrar(conectado);
+  avisar("Senha cadastrada com sucesso!");
+  history.replaceState(null, "", location.pathname);
+});
+
+document.getElementById("sair")
+.addEventListener("click", async () => {
+  await cliente.auth.signOut();
+  mostrar(login);
+  avisar("Você saiu do sistema.");
+});
+
+iniciar();
 </script>
 </body>
 </html>
