@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Painel da Diretoria • Retiro 2027</title>
+<style>
+:root{font-family:system-ui,-apple-system,Arial,sans-serif;color:#faeee2;background:#171310}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#402315,#171310 70%);min-height:100vh}.wrap{max-width:1100px;margin:auto;padding:24px 15px 80px}header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px;flex-wrap:wrap}.eyebrow{letter-spacing:.24em;color:#f4ad78;font-weight:800;font-size:12px}.title{font-size:clamp(28px,6vw,44px);margin:8px 0}.sub{color:#c8b6a9;margin:0}.flame{font-size:34px}.button,button{background:linear-gradient(90deg,#fcb46d,#ed7b32);border:0;border-radius:10px;padding:11px 16px;color:#23170e;font-weight:800;cursor:pointer}.button.secondary,button.secondary{background:#352920;color:#fae7d7;border:1px solid #80543a}.button:disabled{opacity:.6;cursor:wait}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0}.card,.panel{background:#29211d;border:1px solid #694530;border-radius:16px;padding:17px}.card span{font-size:12px;color:#d7bdab}.card strong{display:block;color:#ffb879;font-size:clamp(20px,4vw,29px);margin-top:5px}.panel{margin-top:15px}.topline{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}input,select{width:100%;background:#fff9f2;color:#261b15;border:1px solid #b89c86;border-radius:9px;padding:12px;font-size:15px}#busca{max-width:390px}.list{display:grid;gap:12px;margin-top:16px}.person{border:1px solid #604536;background:#211a17;border-radius:13px;padding:15px}.personhead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.person h3{margin:0 0 4px;font-size:17px}.muted{color:#d7bdab;font-size:13px}.installments{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:13px}.installment{background:#332820;border-radius:10px;padding:10px;font-size:13px}.installment strong{color:#ffb879;display:block;margin:4px 0}.installment button{margin-top:8px;width:100%;font-size:12px;padding:9px}.paid{color:#93dcac!important}.error{color:#ffb4a2}.notice{background:#392c24;border:1px solid #9d6643;padding:14px;border-radius:12px}.hide{display:none!important}a{color:#ffbc83}#message{min-height:24px}footer{color:#b7a69a;font-size:12px;margin-top:20px}@media(min-width:700px){.cards{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div><div class="eyebrow">IBI BIGUAÇU • RETIRO 2027</div><h1 class="title"><span class="flame">🔥</span> Painel da Diretoria</h1><p class="sub">Reacende a Chama • Controle de inscrições e parcelas</p></div><button id="sair" class="secondary hide">Sair</button></header>
+<div id="blocked" class="notice">Verificando acesso da administradora…</div>
+<main id="dashboard" class="hide">
+<div class="cards"><div class="card"><span>Participantes</span><strong id="ninscritos">0</strong></div><div class="card"><span>Valor de inscrições</span><strong id="total">R$ 0,00</strong></div><div class="card"><span>Recebido em parcelas</span><strong id="recebido">R$ 0,00</strong></div><div class="card"><span>Saldo restante</span><strong id="pendente">R$ 0,00</strong></div></div>
+<div class="panel"><div class="topline"><div><h2>Inscrições</h2><p class="muted">Atualize as parcelas quando um pagamento realmente for recebido.</p></div><button id="atualizar" class="secondary">Atualizar dados</button></div><input id="busca" type="search" placeholder="Buscar pelo nome do participante" aria-label="Buscar participante"><p id="message" role="status"></p><div id="lista" class="list"></div></div>
+<footer>Somente para administração. Pagamentos manuais devem ser conferidos antes de marcar como pagos. Esta página não processa Pix ou cartão automaticamente.</footer>
+</main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+'use strict';
+const SUPABASE_URL='https://bkzdjqjqjjcrojyajuvr.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_B7aEHrRhyIDIsB_5Bpzy7w_uyGhATtQ';
+const ADMIN_UID='680aa020-a5ff-42ac-ac21-7e2c8c199a5b';
+const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(n)||0);
+const escapeHtml=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let registrations=[], installments=[];
+function message(s,err=false){$('message').textContent=s;$('message').className=err?'error':'';}
+function deny(text){$('blocked').textContent=text;$('blocked').classList.remove('hide');$('dashboard').classList.add('hide');$('sair').classList.add('hide');}
+async function auth(){
+ try{
+  const {data:{user},error}=await client.auth.getUser();
+  if(error||!user){deny('Você precisa entrar com sua conta de administradora. Abrindo login…');setTimeout(()=>location.replace('login.html'),900);return;}
+  if(user.id!==ADMIN_UID){deny('Acesso negado: esta conta não é a administradora autorizada.');$('sair').classList.remove('hide');return;}
+  $('blocked').classList.add('hide');$('dashboard').classList.remove('hide');$('sair').classList.remove('hide');await load();
+ }catch(e){deny('Não foi possível validar seu acesso. Verifique a conexão e recarregue a página.');}
+}
+async function load(){
+ message('Carregando dados…');
+ const [a,b]=await Promise.all([
+  client.from('inscricoes').select('id,nome,whatsapp,categoria,valor_total,forma_pagamento,status,created_at').order('created_at',{ascending:false}),
+  client.from('parcelas').select('id,inscricao_id,numero,valor,valor_pago,pago_em,forma_pagamento,vencimento').order('numero')
+ ]);
+ if(a.error||b.error){message('Não foi possível consultar o banco. Confira sua sessão e as políticas RLS. '+(a.error?.message||b.error?.message||''),true);return;}
+ registrations=a.data||[];installments=b.data||[];render();message('Dados atualizados.');
+}
+function render(){
+ const expected=registrations.reduce((s,r)=>s+Number(r.valor_total||0),0),paid=installments.reduce((s,p)=>s+Number(p.valor_pago||0),0);
+ $('ninscritos').textContent=registrations.length;$('total').textContent=money(expected);$('recebido').textContent=money(paid);$('pendente').textContent=money(Math.max(0,expected-paid));
+ const filter=$('busca').value.trim().toLocaleLowerCase('pt-BR');
+ const shown=registrations.filter(r=>String(r.nome||'').toLocaleLowerCase('pt-BR').includes(filter));
+ if(!shown.length){$('lista').innerHTML='<p class="muted">Nenhuma inscrição encontrada.</p>';return;}
+ $('lista').innerHTML=shown.map(r=>{
+  const rows=installments.filter(p=>p.inscricao_id===r.id).sort((a,b)=>a.numero-b.numero);
+  const cards=rows.map(p=>{
+   const fullyPaid=Number(p.valor_pago)>=Number(p.valor)-0.001;
+   return `<div class="installment">Parcela ${p.numero}<strong class="${fullyPaid?'paid':''}">${money(p.valor_pago)} / ${money(p.valor)}</strong><span class="muted">${fullyPaid?'Pago': 'Pendente'}${p.pago_em?' • '+new Date(p.pago_em).toLocaleDateString('pt-BR'):''}</span><button data-action="${fullyPaid?'undo':'pay'}" data-id="${p.id}" class="${fullyPaid?'secondary':''}">${fullyPaid?'Desfazer pagamento':'Marcar como pago'}</button></div>`;
+  }).join('');
+  return `<article class="person"><div class="personhead"><div><h3>${escapeHtml(r.nome||'Sem nome')}</h3><span class="muted">${escapeHtml(r.categoria||'Categoria não informada')} • ${escapeHtml(r.whatsapp||'Sem telefone')}</span></div><strong>${money(r.valor_total)}</strong></div>${rows.length?`<div class="installments">${cards}</div>`:`<p class="muted">Ainda não há parcelas para este participante.</p><button data-action="create" data-id="${r.id}">Criar 4 parcelas</button>`}</article>`;
+ }).join('');
+}
+$('busca').addEventListener('input',render);$('atualizar').addEventListener('click',load);
+$('lista').addEventListener('click',async e=>{
+ const button=e.target.closest('button[data-action]');if(!button)return;
+ const action=button.dataset.action,id=Number(button.dataset.id);
+ if(!Number.isSafeInteger(id))return;
+ button.disabled=true;
+ try{
+  if(action==='create'){
+   const r=registrations.find(x=>x.id===id);if(!r)throw Error('Inscrição não encontrada');
+   const total=Math.round(Number(r.valor_total)*100);if(!Number.isSafeInteger(total)||total<=0)throw Error('Valor inválido. Confira a inscrição.');
+   const base=Math.floor(total/4),remainder=total%4;
+   if(!confirm('Criar quatro parcelas para '+r.nome+'?'))return;
+   const entries=Array.from({length:4},(_,i)=>({inscricao_id:id,numero:i+1,valor:(base+(i<remainder?1:0))/100,valor_pago:0}));
+   const {error}=await client.from('parcelas').insert(entries);if(error)throw error;
+  }else{
+   const p=installments.find(x=>x.id===id);if(!p)throw Error('Parcela não encontrada');
+   const paying=action==='pay';if(!confirm(paying?'Você recebeu e conferiu este pagamento?':'Deseja desfazer o registro deste pagamento?'))return;
+   const {error}=await client.from('parcelas').update({valor_pago:paying?p.valor:0,pago_em:paying?new Date().toISOString():null,forma_pagamento:paying?'manual':null}).eq('id',id);
+   if(error)throw error;
+  }
+  await load();
+ }catch(err){message('Erro ao salvar: '+(err.message||'verifique sua conexão'),true)}finally{button.disabled=false;}
+});
+$('sair').addEventListener('click',async()=>{await client.auth.signOut();location.replace('login.html')});
+auth();
+</script>
+</body>
+</html>
