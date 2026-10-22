@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diretoria | Retiro 2027</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at bottom,
+    #713517, #171312 75%);
+  color: #fff3e7;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 24px;
+  background: #29211e;
+  border: 1px solid #795038;
+  border-radius: 22px;
+  text-align: center;
+}
+.flame { font-size: 55px; }
+h1 { color: #f5a35c; margin-bottom: 5px; }
+p { color: #e5c7b1; }
+input, button {
+  width: 100%;
+  padding: 16px;
+  margin-top: 14px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+input {
+  background: #fffaf5;
+  color: #29211e;
+  border: 0;
+}
+button {
+  background: linear-gradient(90deg,
+    #ffb76b, #e87931);
+  color: #231813;
+  border: 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+#mensagem {
+  font-size: 14px;
+  margin-top: 20px;
+}
+a { color: #ffb76b; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="flame">🔥</div>
+  <h1>REACENDE A CHAMA</h1>
+  <p>IBI BIGUAÇU • RETIRO 2027</p>
+  <h2>Acesso da Diretoria</h2>
+  <p>Área exclusiva da organização</p>
+
+  <form id="login">
+    <input type="email" id="email"
+      placeholder="Seu e-mail" required>
+    <input type="password" id="senha"
+      placeholder="Sua senha" required>
+    <button type="submit">Entrar no sistema</button>
+  </form>
+
+  <p id="mensagem" role="status">
+    Login em preparação.
+  </p>
+
+  <a href="index.html">Voltar ao retiro</a>
+</div>
+
+<script>
+document.getElementById("login")
+.addEventListener("submit", function(event) {
+  event.preventDefault();
+  document.getElementById("mensagem")
+    .textContent =
+    "A conexão segura com o Supabase ainda será configurada. Nenhum login foi realizado.";
+});
+</script>
+</body>
+</html>
