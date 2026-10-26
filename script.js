@@ -30,8 +30,14 @@ function atualizarPreco() {
   }
 
   total.textContent = moeda(valor);
+
+  const centavos = Math.round(valor * 100);
+  const base = Math.floor(centavos / 3);
+  const ultima = centavos - base * 2;
+
   parcelas.textContent =
-    `4 parcelas de ${moeda(valor / 4)}`;
+    `3 parcelas: 2 de ${moeda(base / 100)} ` +
+    `e a última de ${moeda(ultima / 100)}`;
 }
 
 categoria.addEventListener("change", atualizarPreco);
@@ -133,4 +139,3 @@ formulario.addEventListener("submit", async (event) => {
     botao.textContent = "Enviar pré-inscrição";
   }
 });
-
