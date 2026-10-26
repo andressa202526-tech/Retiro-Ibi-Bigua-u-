@@ -23,6 +23,12 @@ const moeda = valor =>
 function atualizarPreco() {
   const valor = valores[categoria.value];
 
+  if (valor === undefined) {
+    total.textContent = "Selecione uma categoria";
+    parcelas.textContent = "";
+    return;
+  }
+
   total.textContent = moeda(valor);
   parcelas.textContent =
     `4 parcelas de ${moeda(valor / 4)}`;
@@ -35,6 +41,7 @@ formulario.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (!formulario.reportValidity()) return;
+  if (botao.disabled) return;
 
   const nome = document.getElementById("nome").value.trim();
   const whatsapp =
@@ -55,7 +62,7 @@ formulario.addEventListener("submit", async (event) => {
 
   botao.disabled = true;
   botao.textContent = "Enviando inscrição...";
-  aviso.textContent = "Aguarde, estamos enviando seus dados.";
+  aviso.textContent = "Enviando seus dados...";
 
   try {
     const resposta = await fetch(URL_INSCRICAO, {
@@ -72,16 +79,28 @@ formulario.addEventListener("submit", async (event) => {
       })
     });
 
-    const dados = await resposta.json();
+    const texto = await resposta.text();
+
+    let dados;
+
+    try {
+      dados = JSON.parse(texto);
+    } catch {
+      throw new Error(
+        `Servidor retornou HTTP ${resposta.status}. ` +
+        "Não foi possível confirmar o cadastro."
+      );
+    }
 
     if (!resposta.ok || !dados.sucesso) {
       throw new Error(
-        dados.erro || "Não foi possível enviar a inscrição."
+        dados.erro ||
+        `Erro HTTP ${resposta.status} ao cadastrar.`
       );
     }
 
     aviso.textContent =
-      "Pré-inscrição recebida com sucesso! " +
+      "✅ Pré-inscrição recebida com sucesso! " +
       "Aguarde a confirmação da organização da IBI Biguaçu.";
 
     formulario.reset();
@@ -92,14 +111,26 @@ formulario.addEventListener("submit", async (event) => {
     }
 
   } catch (erro) {
-    aviso.textContent =
-      "Não foi possível confirmar o envio. " +
-      "Entre em contato com a organização antes " +
-      "de tentar novamente, para evitar duplicidade.";
+    const mensagem =
+      erro instanceof Error
+        ? erro.message
+        : "Erro desconhecido.";
 
     console.error("Erro na inscrição:", erro);
+
+    aviso.textContent =
+      "❌ " + mensagem +
+      " Se você já tentou se inscrever, " +
+      "confirme com a organização antes de reenviar, " +
+      "para evitar duplicidade.";
+
+    if (window.turnstile) {
+      window.turnstile.reset();
+    }
+
   } finally {
     botao.disabled = false;
     botao.textContent = "Enviar pré-inscrição";
   }
 });
+
