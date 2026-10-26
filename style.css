@@ -1,8 +1,8 @@
 
-/* ========================================
-   RETIRO DE CARNAVAL 2027 - IBI BIGUAÇU
-   PALETA ORIGINAL: MARROM, PRETO E COBRE
-======================================== */
+/* ======================================
+   RETIRO CARNAVAL 2027 - IBI BIGUAÇU
+   PRETO, MARROM E COBRE
+====================================== */
 
 :root {
   font-family: Arial, Helvetica, sans-serif;
@@ -11,7 +11,9 @@
   font-synthesis: none;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -21,6 +23,8 @@ html {
 
 body {
   margin: 0;
+  width: 100%;
+  overflow-x: hidden;
   background: #15110f;
 }
 
@@ -36,9 +40,7 @@ p {
   line-height: 1.7;
 }
 
-/* ========================================
-   CAPA PRINCIPAL
-======================================== */
+/* CAPA PRINCIPAL */
 
 .hero {
   position: relative;
@@ -48,7 +50,6 @@ p {
   justify-content: center;
   text-align: center;
   padding: 85px 20px 95px;
-
   background: radial-gradient(
     ellipse at 50% 90%,
     #813b19 0%,
@@ -62,7 +63,6 @@ p {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  z-index: 1;
 }
 
 .eyebrow,
@@ -115,9 +115,7 @@ p {
   margin: 0 8px;
 }
 
-/* ========================================
-   BOTÕES
-======================================== */
+/* BOTÕES */
 
 .primary {
   display: inline-block;
@@ -125,21 +123,18 @@ p {
   padding: 17px 24px;
   border: 0;
   border-radius: 12px;
-
   background: linear-gradient(
     120deg,
     #f6b568,
     #de6c2a
   );
-
   color: #20120d;
   font-size: 1rem;
   font-weight: 800;
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-
-  transition: filter 0.2s, transform 0.2s;
+  transition: filter .2s, transform .2s;
 }
 
 .primary:hover {
@@ -148,7 +143,7 @@ p {
 }
 
 .primary:disabled {
-  opacity: 0.6;
+  opacity: .6;
   cursor: not-allowed;
   transform: none;
 }
@@ -159,11 +154,10 @@ p {
   text-decoration: none;
 }
 
-/* ========================================
-   CONTEÚDO PRINCIPAL
-======================================== */
+/* CONTEÚDO PRINCIPAL */
 
 main {
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
   padding: 0 18px 60px;
@@ -185,12 +179,14 @@ main {
 }
 
 .panel {
+  width: 100%;
+  min-width: 0;
   background: #28201c;
   border: 1px solid #64402d;
   border-radius: 22px;
   padding: clamp(22px, 5vw, 42px);
   margin: 20px auto 35px;
-  box-shadow: 0 15px 45px rgba(0,0,0,0.2);
+  box-shadow: 0 15px 45px rgba(0,0,0,.2);
 }
 
 .panel > p {
@@ -216,17 +212,23 @@ main {
   margin-bottom: 8px;
 }
 
-/* ========================================
-   CONHEÇA NOSSO LOCAL
-======================================== */
+/* ======================================
+   CONHEÇA UM POUCO DO NOSSO LOCAL
+   FOTO CENTRALIZADA SEM CORTES
+====================================== */
 
 .local-section {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
   text-align: center;
   background: #211b18;
 }
 
 .local-section h2 {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
   color: #f7ebdf;
   margin: 14px 0 18px;
 }
@@ -238,31 +240,36 @@ main {
 }
 
 .local-foto {
-  margin-top: 25px;
+  display: block;
   width: 100%;
-  border-radius: 18px;
+  max-width: 100%;
+  min-width: 0;
+  margin: 24px auto 0;
   overflow: hidden;
+  border-radius: 16px;
   border: 1px solid #805037;
-  box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+  box-shadow: 0 12px 28px rgba(0,0,0,.3);
 }
 
 .local-foto img {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
+  object-fit: contain;
 }
 
 .local-section .local-legenda {
   color: #f4a661;
-  font-size: 0.85rem;
+  font-size: .85rem;
   margin: 18px auto 0;
 }
 
-/* Compatibilidade com galeria antiga */
+/* GALERIA ANTIGA - COMPATIBILIDADE */
 
 .galeria-local {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-top: 25px;
 }
@@ -270,15 +277,14 @@ main {
 .galeria-local img {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: 230px;
   object-fit: cover;
   border-radius: 15px;
   border: 1px solid #75503a;
 }
 
-/* ========================================
-   FORMULÁRIO DE INSCRIÇÃO
-======================================== */
+/* FORMULÁRIO DE INSCRIÇÃO */
 
 label:not(.check) {
   display: block;
@@ -332,7 +338,7 @@ select:focus {
   align-items: flex-start;
   gap: 12px;
   margin: 25px 0;
-  font-size: 0.86rem;
+  font-size: .86rem;
   line-height: 1.6;
   color: #e5cbb8;
 }
@@ -353,12 +359,10 @@ select:focus {
 
 .muted {
   color: #cbb4a3;
-  font-size: 0.88rem;
+  font-size: .88rem;
 }
 
-/* ========================================
-   PAGAMENTO PAGBANK
-======================================== */
+/* PAGAMENTO PAGBANK */
 
 #pagamentoOnline {
   margin-top: 28px;
@@ -366,7 +370,6 @@ select:focus {
   text-align: center;
   border: 1px solid #be824f;
   border-radius: 18px;
-
   background: linear-gradient(
     145deg,
     #493021,
@@ -386,9 +389,7 @@ select:focus {
   display: none !important;
 }
 
-/* ========================================
-   RODAPÉ
-======================================== */
+/* RODAPÉ */
 
 footer {
   text-align: center;
@@ -398,12 +399,9 @@ footer {
   line-height: 1.8;
 }
 
-/* ========================================
-   RESPONSIVO - CELULAR
-======================================== */
+/* AJUSTES PARA CELULAR */
 
 @media (max-width: 650px) {
-
   .hero {
     min-height: 65vh;
     padding: 70px 18px 80px;
@@ -418,6 +416,18 @@ footer {
     display: none;
   }
 
+  .panel {
+    border-radius: 18px;
+  }
+
+  .local-section {
+    padding: 22px 14px;
+  }
+
+  .local-foto {
+    border-radius: 10px;
+  }
+
   .galeria-local {
     grid-template-columns: 1fr;
   }
@@ -426,22 +436,9 @@ footer {
     height: 230px;
   }
 
-  .local-section {
-    padding: 25px 18px;
-  }
-
-  .local-foto {
-    border-radius: 12px;
-  }
-
-  .panel {
-    border-radius: 18px;
-  }
-
   #pagamentoOnline {
     padding: 20px;
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
