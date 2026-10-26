@@ -1,4 +1,9 @@
 
+/* ========================================
+   RETIRO DE CARNAVAL 2027 - IBI BIGUAÇU
+   PALETA ORIGINAL: MARROM, PRETO E COBRE
+======================================== */
+
 :root {
   font-family: Arial, Helvetica, sans-serif;
   color: #f7ebdf;
@@ -31,49 +36,33 @@ p {
   line-height: 1.7;
 }
 
-/* CAPA DO RETIRO */
+/* ========================================
+   CAPA PRINCIPAL
+======================================== */
 
 .hero {
   position: relative;
-  min-height: 85vh;
+  min-height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 90px 20px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(15, 11, 10, 0.55),
-      rgba(20, 13, 11, 0.85)
-    ),
-    radial-gradient(
-      ellipse at 50% 90%,
-      #813b19,
-      #15110f 80%
-    );
-  background-size: cover;
-  background-position: center;
-}
+  padding: 85px 20px 95px;
 
-/* Quando adicionar capa-local.jpg,
-   a foto aparecerá automaticamente. */
-
-.hero:has(.hero-overlay) {
-  background-image:
-    linear-gradient(
-      180deg,
-      rgba(15, 11, 10, 0.55),
-      rgba(20, 13, 11, 0.85)
-    ),
-    url("images/capa-local.jpg");
+  background: radial-gradient(
+    ellipse at 50% 90%,
+    #813b19 0%,
+    #2c1b16 45%,
+    #15110f 83%
+  );
 }
 
 .hero-overlay {
   position: relative;
-  z-index: 1;
-  max-width: 850px;
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  z-index: 1;
 }
 
 .eyebrow,
@@ -81,45 +70,43 @@ p {
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 3px;
-  color: #f4b777;
+  color: #f4a661;
 }
 
 .eyebrow {
-  margin-bottom: 22px;
-}
-
-.flame {
-  font-size: 4rem;
-  margin: 20px 0;
+  margin-bottom: 24px;
 }
 
 .hero h1 {
-  font-size: clamp(2.8rem, 8vw, 5.6rem);
+  font-size: clamp(2.9rem, 9vw, 5.8rem);
   line-height: 1.05;
   letter-spacing: -2px;
   margin: 0 auto 25px;
-  color: #fff8f0;
-  text-shadow: 0 4px 25px rgba(0,0,0,0.45);
+  color: #f7ebdf;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: #f2a057;
 }
 
 .hero-subtitle,
 .hero p {
-  color: #f4dfcf;
-  font-size: clamp(1rem, 2.5vw, 1.22rem);
+  color: #f4d8c2;
+  font-size: clamp(1rem, 2.5vw, 1.18rem);
   line-height: 1.7;
-  max-width: 650px;
+  max-width: 620px;
   margin: 0 auto 25px;
 }
 
 .event {
   margin: 28px auto 35px;
   padding: 16px 22px;
-  border: 1px solid rgba(244, 183, 119, 0.5);
-  border-radius: 14px;
+  border: 1px solid #8d5738;
+  border-radius: 12px;
   max-width: 520px;
-  background: rgba(30, 18, 14, 0.58);
+  background: rgba(30, 18, 14, 0.3);
   color: #fff0df;
-  backdrop-filter: blur(8px);
   line-height: 1.7;
 }
 
@@ -128,26 +115,31 @@ p {
   margin: 0 8px;
 }
 
-/* BOTÕES */
+/* ========================================
+   BOTÕES
+======================================== */
 
 .primary {
   display: inline-block;
-  background: linear-gradient(
-    120deg,
-    #f6bd78,
-    #e58b45
-  );
-  color: #24140c;
+  width: 100%;
+  padding: 17px 24px;
   border: 0;
   border-radius: 12px;
-  padding: 17px 24px;
+
+  background: linear-gradient(
+    120deg,
+    #f6b568,
+    #de6c2a
+  );
+
+  color: #20120d;
   font-size: 1rem;
   font-weight: 800;
-  cursor: pointer;
   text-decoration: none;
   text-align: center;
-  width: 100%;
-  transition: transform 0.2s, filter 0.2s;
+  cursor: pointer;
+
+  transition: filter 0.2s, transform 0.2s;
 }
 
 .primary:hover {
@@ -167,17 +159,19 @@ p {
   text-decoration: none;
 }
 
-/* CONTEÚDO */
+/* ========================================
+   CONTEÚDO PRINCIPAL
+======================================== */
 
 main {
   max-width: 900px;
-  margin: auto;
+  margin: 0 auto;
   padding: 0 18px 60px;
 }
 
 .intro {
   text-align: center;
-  padding: 65px 15px 42px;
+  padding: 60px 15px 40px;
 }
 
 .intro h2 {
@@ -222,7 +216,49 @@ main {
   margin-bottom: 8px;
 }
 
-/* GALERIA DE FOTOS */
+/* ========================================
+   CONHEÇA NOSSO LOCAL
+======================================== */
+
+.local-section {
+  text-align: center;
+  background: #211b18;
+}
+
+.local-section h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: #f7ebdf;
+  margin: 14px 0 18px;
+}
+
+.local-section > p {
+  color: #dbc4b5;
+  max-width: 620px;
+  margin: 0 auto 24px;
+}
+
+.local-foto {
+  margin-top: 25px;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #805037;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+}
+
+.local-foto img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.local-section .local-legenda {
+  color: #f4a661;
+  font-size: 0.85rem;
+  margin: 18px auto 0;
+}
+
+/* Compatibilidade com galeria antiga */
 
 .galeria-local {
   display: grid;
@@ -238,15 +274,11 @@ main {
   object-fit: cover;
   border-radius: 15px;
   border: 1px solid #75503a;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.25);
-  transition: transform 0.25s;
 }
 
-.galeria-local img:hover {
-  transform: scale(1.025);
-}
-
-/* FORMULÁRIO */
+/* ========================================
+   FORMULÁRIO DE INSCRIÇÃO
+======================================== */
 
 label:not(.check) {
   display: block;
@@ -324,7 +356,9 @@ select:focus {
   font-size: 0.88rem;
 }
 
-/* PAGAMENTO PAGBANK */
+/* ========================================
+   PAGAMENTO PAGBANK
+======================================== */
 
 #pagamentoOnline {
   margin-top: 28px;
@@ -332,6 +366,7 @@ select:focus {
   text-align: center;
   border: 1px solid #be824f;
   border-radius: 18px;
+
   background: linear-gradient(
     145deg,
     #493021,
@@ -351,7 +386,9 @@ select:focus {
   display: none !important;
 }
 
-/* RODAPÉ */
+/* ========================================
+   RODAPÉ
+======================================== */
 
 footer {
   text-align: center;
@@ -361,16 +398,19 @@ footer {
   line-height: 1.8;
 }
 
-/* CELULAR */
+/* ========================================
+   RESPONSIVO - CELULAR
+======================================== */
 
 @media (max-width: 650px) {
+
   .hero {
-    min-height: 75vh;
-    padding: 80px 18px;
+    min-height: 65vh;
+    padding: 70px 18px 80px;
   }
 
   .hero h1 {
-    font-size: clamp(2.7rem, 11vw, 4rem);
+    font-size: clamp(2.6rem, 11vw, 4rem);
     letter-spacing: -1px;
   }
 
@@ -386,6 +426,14 @@ footer {
     height: 230px;
   }
 
+  .local-section {
+    padding: 25px 18px;
+  }
+
+  .local-foto {
+    border-radius: 12px;
+  }
+
   .panel {
     border-radius: 18px;
   }
@@ -393,6 +441,7 @@ footer {
   #pagamentoOnline {
     padding: 20px;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -400,8 +449,7 @@ footer {
     scroll-behavior: auto;
   }
 
-  .primary,
-  .galeria-local img {
+  .primary {
     transition: none;
   }
 }
