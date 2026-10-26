@@ -6,15 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#17110f">
 
-  <title>Retiro 2027 | Reacende a Chama | IBI Biguaçu</title>
+  <title>Retiro de Carnaval 2027 | IBI Biguaçu</title>
 
   <link rel="stylesheet" href="style.css?v=20261026-4">
 
-  <!-- Proteção Cloudflare Turnstile -->
   <script
     src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-    async
-    defer>
+    async defer>
   </script>
 </head>
 
@@ -49,25 +47,29 @@
 
     <section class="intro">
       <h2>Uma experiência especial nos espera!</h2>
+
       <p>
-        Serão dias de comunhão, alegria, renovação
-        espiritual e momentos inesquecíveis
-        na presença de Deus.
+        Serão dias de comunhão, alegria,
+        renovação espiritual e momentos
+        inesquecíveis na presença de Deus.
       </p>
     </section>
 
     <section id="inscricao" class="panel">
-      <div class="section-tag">INSCRIÇÕES</div>
+
+      <div class="section-tag">INSCRIÇÕES ABERTAS</div>
 
       <h2>Garanta sua vaga</h2>
 
       <p>
-        Preencha seus dados para preparar sua inscrição.
+        Preencha seus dados e escolha
+        como deseja realizar o pagamento.
       </p>
 
       <form id="formInscricao">
 
         <label for="nome">Nome completo</label>
+
         <input
           id="nome"
           name="nome"
@@ -80,12 +82,12 @@
         >
 
         <label for="telefone">WhatsApp</label>
+
         <input
           id="telefone"
           name="telefone"
           type="tel"
           required
-          inputmode="tel"
           minlength="10"
           maxlength="20"
           autocomplete="tel"
@@ -93,11 +95,9 @@
         >
 
         <label for="categoria">Categoria</label>
-        <select
-          id="categoria"
-          name="categoria"
-          required
-        >
+
+        <select id="categoria" name="categoria" required>
+
           <option value="adulto">
             Adulto — R$ 350,00
           </option>
@@ -105,13 +105,16 @@
           <option value="crianca">
             Criança (7 a 11 anos) — R$ 175,00
           </option>
+
         </select>
 
         <div class="price">
           <small>Valor total</small>
+
           <strong id="total">R$ 350,00</strong>
+
           <span id="parcelas">
-            4 parcelas de R$ 87,50
+            Até 3 parcelas no Pix ou dinheiro
           </span>
         </div>
 
@@ -119,40 +122,45 @@
           Como pretende pagar?
         </label>
 
-        <select
-          id="pagamento"
-          name="pagamento"
-          required
-        >
+        <select id="pagamento" name="pagamento" required>
+
           <option value="pix">
-            Pix (combinar com a organização)
+            Pix — até 3x com a organização
           </option>
 
           <option value="dinheiro">
-            Dinheiro (combinar com a organização)
+            Dinheiro — até 3x com a organização
           </option>
 
-          <option value="online" disabled>
-            Online (ainda não disponível)
+          <option value="online">
+            Cartão de crédito — PagBank até 4x
           </option>
+
         </select>
 
+        <p class="muted">
+          No cartão, o parcelamento pode ter
+          acréscimos de taxas informados
+          pelo PagBank antes do pagamento.
+        </p>
+
         <label class="check">
+
           <input
             type="checkbox"
-            required
             id="consentimento"
+            required
           >
 
           <span>
-            Autorizo o envio dos meus dados de contato
-            à organização para tratar da inscrição.
-            Estou ciente de que o envio da pré-inscrição
-            não garante minha vaga.
+            Autorizo o envio dos meus dados de
+            contato à organização para tratar
+            da inscrição. Estou ciente de que
+            a pré-inscrição não garante minha vaga.
           </span>
+
         </label>
 
-        <!-- Verificação Cloudflare -->
         <div
           class="cf-turnstile"
           data-sitekey="0x4AAAAAAFiiQrYyHjG-vBkJ"
@@ -173,29 +181,70 @@
         </p>
 
       </form>
+
+      <div
+        id="pagamentoOnline"
+        class="price"
+        hidden
+        aria-live="polite">
+
+        <h2>Pré-inscrição recebida!</h2>
+
+        <p>
+          Agora você pode continuar para
+          o pagamento seguro pelo PagBank.
+        </p>
+
+        <a
+          id="linkPagBank"
+          class="primary link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer">
+          Pagar com cartão pelo PagBank
+        </a>
+
+        <p class="muted">
+          O pagamento é realizado no PagBank.
+          Confira o valor, o parcelamento e
+          as taxas antes de confirmar.
+          A organização verificará a confirmação
+          do pagamento.
+        </p>
+
+      </div>
+
     </section>
 
     <section class="panel lighter">
+
       <h2>Como funciona o pagamento?</h2>
 
+      <h3>Pix ou dinheiro</h3>
+
       <p>
-        O valor pode ser dividido em quatro parcelas,
-        de novembro de 2026 a fevereiro de 2027.
-        A organização confirmará os pagamentos
-        e a disponibilidade de vagas.
+        O pagamento pode ser combinado
+        com a organização em até 3 parcelas.
+        Os vencimentos serão informados
+        pela equipe do retiro.
       </p>
 
-      <div class="months">
-        <span>Novembro</span>
-        <span>Dezembro</span>
-        <span>Janeiro</span>
-        <span>Fevereiro</span>
-      </div>
+      <h3>Cartão de crédito</h3>
+
+      <p>
+        Pagamento online pelo PagBank,
+        com parcelamento em até 4 vezes.
+        O PagBank informa as taxas e o
+        valor final antes da confirmação.
+      </p>
 
       <p class="muted">
-        Este site não processa Pix nem cartões
-        e não registra pagamentos automaticamente.
+        Pagamentos online não são confirmados
+        automaticamente neste site.
+        A organização fará a conferência
+        no PagBank.
       </p>
+
     </section>
 
   </main>
@@ -208,8 +257,7 @@
     </small>
   </footer>
 
-  <!-- Carregar versão atualizada do JavaScript -->
-  <script src="script.js?v=20261026-4"></script>
+  <script src="script.js?v=20261026-6"></script>
 
 </body>
 </html>
