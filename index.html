@@ -3,11 +3,12 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#17110f">
-  <title>Retiro 2027 | IBI Biguaçu</title>
 
-  <link rel="stylesheet" href="style.css">
+  <title>Retiro 2027 | Reacende a Chama | IBI Biguaçu</title>
+
+  <link rel="stylesheet" href="style.css?v=20261026-3">
 
   <!-- Proteção Cloudflare Turnstile -->
   <script
@@ -18,12 +19,20 @@
 </head>
 
 <body>
+
   <header class="hero">
-    <div class="eyebrow">IBI BIGUAÇU • RETIRO 2027</div>
+    <div class="eyebrow">
+      IBI BIGUAÇU • RETIRO 2027
+    </div>
+
     <div class="flame" aria-hidden="true">🔥</div>
 
-    <title>Retiro de Carnaval 2027 | IBI Biguaçu</title>
+    <h1>Reacende a Chama</h1>
+
     <p>
+      Reaviva o dom de Deus que há em ti.
+      <br>
+      <strong>2 Timóteo 1:6</strong>
     </p>
 
     <div class="event">
@@ -37,8 +46,10 @@
   </header>
 
   <main>
+
     <section class="intro">
       <h2>Uma experiência especial nos espera!</h2>
+
       <p>
         Serão dias de comunhão, alegria, renovação
         espiritual e momentos inesquecíveis
@@ -56,10 +67,12 @@
       </p>
 
       <form id="formInscricao">
+
         <label for="nome">Nome completo</label>
         <input
           id="nome"
           name="nome"
+          type="text"
           required
           minlength="3"
           maxlength="120"
@@ -71,8 +84,8 @@
         <input
           id="telefone"
           name="telefone"
-          required
           type="tel"
+          required
           inputmode="tel"
           minlength="10"
           maxlength="20"
@@ -89,6 +102,7 @@
           <option value="adulto">
             Adulto — R$ 350,00
           </option>
+
           <option value="crianca">
             Criança (7 a 11 anos) — R$ 175,00
           </option>
@@ -105,13 +119,20 @@
         <label for="pagamento">
           Como pretende pagar?
         </label>
-        <select id="pagamento" name="pagamento">
+
+        <select
+          id="pagamento"
+          name="pagamento"
+          required
+        >
           <option value="pix">
             Pix (combinar com a organização)
           </option>
+
           <option value="dinheiro">
             Dinheiro (combinar com a organização)
           </option>
+
           <option value="online" disabled>
             Online (ainda não disponível)
           </option>
@@ -123,6 +144,7 @@
             required
             id="consentimento"
           >
+
           <span>
             Autorizo o envio dos meus dados de contato
             à organização para tratar da inscrição.
@@ -131,7 +153,7 @@
           </span>
         </label>
 
-        <!-- Verificação de segurança Cloudflare -->
+        <!-- Verificação Cloudflare -->
         <div
           class="cf-turnstile"
           data-sitekey="0x4AAAAAAFiiQrYyHjG-vBkJ"
@@ -150,6 +172,7 @@
           role="status"
           aria-live="polite">
         </p>
+
       </form>
     </section>
 
@@ -175,16 +198,21 @@
         e não registra pagamentos automaticamente.
       </p>
     </section>
+
   </main>
 
   <footer>
     IBI Biguaçu • Retiro 2027
+
     <br>
+
     <small>
       Reacende a Chama — 2 Timóteo 1:6
     </small>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- JavaScript atualizado -->
+  <script src="script.js?v=20261026-3"></script>
+
 </body>
 </html>
