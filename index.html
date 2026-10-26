@@ -1,14 +1,16 @@
+
 <!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#17110f">
+  <meta name="theme-color" content="#15110f">
 
   <title>Retiro de Carnaval 2027 | IBI Biguaçu</title>
 
-  <link rel="stylesheet" href="style.css?v=20261026-7">
+  <link rel="stylesheet" href="style.css?v=20261026-8">
 
+  <!-- Verificação de segurança -->
   <script
     src="https://challenges.cloudflare.com/turnstile/v0/api.js"
     async
@@ -18,16 +20,23 @@
 
 <body>
 
+  <!-- CAPA DO SITE -->
   <header class="hero">
     <div class="hero-overlay">
+
       <div class="eyebrow">
-        IBI BIGUAÇU
+        IBI BIGUAÇU • 2027
       </div>
 
-      <h1>Retiro de Carnaval 2027</h1>
+      <h1>
+        Retiro de<br>
+        <em>Carnaval 2027</em>
+      </h1>
 
       <p class="hero-subtitle">
-        Dias especiais de comunhão, alegria e renovação
+        Uma experiência especial nos espera!
+        <br>
+        Dias de comunhão, alegria e renovação
         na presença de Deus.
       </p>
 
@@ -39,35 +48,60 @@
       <a class="primary link" href="#inscricao">
         Quero me inscrever ↓
       </a>
+
     </div>
   </header>
 
   <main>
 
+    <!-- APRESENTAÇÃO -->
     <section class="intro">
       <h2>Uma experiência especial nos espera!</h2>
+
       <p>
-        Serão dias inesquecíveis de comunhão, descanso,
-        alegria e crescimento espiritual.
+        Serão dias inesquecíveis de comunhão,
+        descanso, alegria e crescimento espiritual.
+        Prepare-se para viver momentos especiais!
       </p>
     </section>
 
-    <section class="panel lighter">
-      <h2>Conheça o local</h2>
-      <p>
-        Confira algumas imagens do espaço onde viveremos
-        esses dias tão especiais.
-      </p>
+    <!-- FOTOS DO LOCAL -->
+    <section class="panel lighter local-section">
 
-      <div class="galeria-local">
-        <img src="images/local1.jpg" alt="Foto do Sítio Potecas 1">
-        <img src="images/local2.jpg" alt="Foto do Sítio Potecas 2">
-        <img src="images/local3.jpg" alt="Foto do Sítio Potecas 3">
+      <div class="section-tag">
+        NOSSO DESTINO
       </div>
+
+      <h2>Conheça um pouco do nosso local</h2>
+
+      <p>
+        Um espaço especial para vivermos dias
+        de comunhão, descanso e momentos
+        inesquecíveis juntos!
+      </p>
+
+      <div class="local-foto">
+        <img
+          src="local-retiro.jpg"
+          alt="Montagem com fotos do Sítio Potecas"
+          loading="lazy"
+          width="1536"
+          height="1024"
+        >
+      </div>
+
+      <p class="local-legenda">
+        Sítio Potecas • Retiro de Carnaval 2027
+      </p>
+
     </section>
 
+    <!-- INSCRIÇÕES -->
     <section id="inscricao" class="panel">
-      <div class="section-tag">INSCRIÇÕES ABERTAS</div>
+
+      <div class="section-tag">
+        INSCRIÇÕES ABERTAS
+      </div>
 
       <h2>Garanta sua vaga</h2>
 
@@ -79,6 +113,7 @@
       <form id="formInscricao">
 
         <label for="nome">Nome completo</label>
+
         <input
           id="nome"
           name="nome"
@@ -91,6 +126,7 @@
         >
 
         <label for="telefone">WhatsApp</label>
+
         <input
           id="telefone"
           name="telefone"
@@ -104,6 +140,7 @@
         >
 
         <label for="categoria">Categoria</label>
+
         <select
           id="categoria"
           name="categoria"
@@ -120,7 +157,11 @@
 
         <div class="price">
           <small>Valor total</small>
-          <strong id="total">R$ 350,00</strong>
+
+          <strong id="total">
+            R$ 350,00
+          </strong>
+
           <span id="parcelas">
             Até 3 parcelas no Pix ou dinheiro
           </span>
@@ -150,23 +191,28 @@
 
         <p class="muted">
           No cartão, o parcelamento pode ter
-          acréscimos de taxas informados pelo PagBank.
+          acréscimos de taxas informados
+          pelo PagBank antes do pagamento.
         </p>
 
         <label class="check">
+
           <input
             type="checkbox"
             required
             id="consentimento"
           >
+
           <span>
             Autorizo o envio dos meus dados de contato
             à organização para tratar da inscrição.
             Estou ciente de que o envio da pré-inscrição
             não garante minha vaga.
           </span>
+
         </label>
 
+        <!-- CLOUDFLARE TURNSTILE -->
         <div
           class="cf-turnstile"
           data-sitekey="0x4AAAAAAFiiQrYyHjG-vBkJ"
@@ -185,13 +231,17 @@
           role="status"
           aria-live="polite">
         </p>
+
       </form>
 
+      <!-- PAGAMENTO PAGBANK -->
       <div
         id="pagamentoOnline"
         class="price"
         hidden
-        aria-live="polite">
+        aria-live="polite"
+      >
+
         <h2>Pré-inscrição recebida!</h2>
 
         <p>
@@ -210,34 +260,47 @@
 
         <p class="muted">
           O pagamento é realizado no PagBank.
-          Confira o valor e o parcelamento
+          Confira o valor, as taxas e o parcelamento
           antes de confirmar.
+          A organização verificará o pagamento.
         </p>
+
       </div>
+
     </section>
 
+    <!-- INFORMAÇÕES DE PAGAMENTO -->
     <section class="panel lighter">
+
       <h2>Como funciona o pagamento?</h2>
 
       <h3>Pix ou dinheiro</h3>
+
       <p>
-        Pagamento combinado com a organização
-        em até 3 parcelas.
+        O pagamento pode ser combinado
+        com a organização em até 3 parcelas.
       </p>
 
       <h3>Cartão de crédito</h3>
+
       <p>
         Pagamento online pelo PagBank,
         com parcelamento em até 4 vezes.
+        As taxas e o valor final são informados
+        antes da confirmação.
       </p>
 
       <p class="muted">
-        A confirmação do pagamento será feita pela organização.
+        O pagamento não é confirmado automaticamente
+        neste site. A organização fará a conferência
+        pelo PagBank.
       </p>
+
     </section>
 
   </main>
 
+  <!-- RODAPÉ -->
   <footer>
     IBI Biguaçu • Retiro de Carnaval 2027
     <br>
@@ -246,6 +309,8 @@
     </small>
   </footer>
 
+  <!-- MANTER JAVASCRIPT DAS INSCRIÇÕES E PAGBANK -->
   <script src="script.js?v=20261026-6"></script>
+
 </body>
 </html>
