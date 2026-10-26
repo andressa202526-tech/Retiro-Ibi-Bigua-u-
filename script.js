@@ -4,12 +4,24 @@ const valores = {
   crianca: 175
 };
 
+const linksPagBank = {
+  adulto: "https://pag.ae/82hAPVQM4",
+  crianca: "https://pag.ae/82hAQxLYJ"
+};
+
 const categoria = document.getElementById("categoria");
 const total = document.getElementById("total");
 const parcelas = document.getElementById("parcelas");
 const formulario = document.getElementById("formInscricao");
 const aviso = document.getElementById("aviso");
 const botao = document.getElementById("botaoInscricao");
+const pagamento = document.getElementById("pagamento");
+
+const pagamentoOnline =
+  document.getElementById("pagamentoOnline");
+
+const linkPagBank =
+  document.getElementById("linkPagBank");
 
 const URL_INSCRICAO =
   "https://bkzdjqjqjjcrojyajuvr.supabase.co/functions/v1/cadastrar-inscricao";
@@ -31,16 +43,23 @@ function atualizarPreco() {
 
   total.textContent = moeda(valor);
 
-  const centavos = Math.round(valor * 100);
-  const base = Math.floor(centavos / 3);
-  const ultima = centavos - base * 2;
+  if (pagamento.value === "online") {
+    parcelas.textContent =
+      "Cartão em até 4x. Taxas informadas pelo PagBank.";
+  } else {
+    const centavos = Math.round(valor * 100);
+    const base = Math.floor(centavos / 3);
+    const ultima = centavos - base * 2;
 
-  parcelas.textContent =
-    `3 parcelas: 2 de ${moeda(base / 100)} ` +
-    `e a última de ${moeda(ultima / 100)}`;
+    parcelas.textContent =
+      `3 parcelas: 2 de ${moeda(base / 100)} ` +
+      `e a última de ${moeda(ultima / 100)}`;
+  }
 }
 
 categoria.addEventListener("change", atualizarPreco);
+pagamento.addEventListener("change", atualizarPreco);
+
 atualizarPreco();
 
 formulario.addEventListener("submit", async (event) => {
@@ -52,8 +71,9 @@ formulario.addEventListener("submit", async (event) => {
   const nome = document.getElementById("nome").value.trim();
   const whatsapp =
     document.getElementById("telefone").value.trim();
-  const pagamento =
-    document.getElementById("pagamento").value;
+
+  const categoriaEscolhida = categoria.value;
+  const pagamentoEscolhido = pagamento.value;
 
   const captchaToken =
     document.querySelector(
@@ -66,8 +86,11 @@ formulario.addEventListener("submit", async (event) => {
     return;
   }
 
+  pagamentoOnline.hidden = true;
+
   botao.disabled = true;
   botao.textContent = "Enviando inscrição...";
+
   aviso.textContent = "Enviando seus dados...";
 
   try {
@@ -79,8 +102,8 @@ formulario.addEventListener("submit", async (event) => {
       body: JSON.stringify({
         nome,
         whatsapp,
-        categoria: categoria.value,
-        pagamento,
+        categoria: categoriaEscolhida,
+        pagamento: pagamentoEscolhido,
         captchaToken
       })
     });
@@ -93,8 +116,7 @@ formulario.addEventListener("submit", async (event) => {
       dados = JSON.parse(texto);
     } catch {
       throw new Error(
-        `Servidor retornou HTTP ${resposta.status}. ` +
-        "Não foi possível confirmar o cadastro."
+        `Servidor retornou HTTP ${resposta.status}.`
       );
     }
 
@@ -107,13 +129,33 @@ formulario.addEventListener("submit", async (event) => {
 
     aviso.textContent =
       "✅ Pré-inscrição recebida com sucesso! " +
-      "Aguarde a confirmação da organização da IBI Biguaçu.";
+      "Aguarde a confirmação da organização.";
 
-    formulario.reset();
-    atualizarPreco();
+    if (pagamentoEscolhido === "online") {
+      linkPagBank.href =
+        linksPagBank[categoriaEscolhida];
 
-    if (window.turnstile) {
-      window.turnstile.reset();
+      linkPagBank.textContent =
+        "Pagar com cartão pelo PagBank";
+
+      pagamentoOnline.hidden = false;
+
+      pagamentoOnline.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      // Evita nova inscrição acidental na mesma tela.
+      botao.disabled = true;
+      botao.textContent = "Pré-inscrição enviada";
+
+    } else {
+      formulario.reset();
+      atualizarPreco();
+
+      if (window.turnstile) {
+        window.turnstile.reset();
+      }
     }
 
   } catch (erro) {
@@ -126,16 +168,19 @@ formulario.addEventListener("submit", async (event) => {
 
     aviso.textContent =
       "❌ " + mensagem +
-      " Se você já tentou se inscrever, " +
-      "confirme com a organização antes de reenviar, " +
-      "para evitar duplicidade.";
+      " Confirme com a organização antes de " +
+      "reenviar, para evitar duplicidade.";
 
     if (window.turnstile) {
       window.turnstile.reset();
     }
 
-  } finally {
     botao.disabled = false;
     botao.textContent = "Enviar pré-inscrição";
+  } finally {
+    if (pagamentoEscolhido !== "online") {
+      botao.disabled = false;
+      botao.textContent = "Enviar pré-inscrição";
+    }
   }
 });
