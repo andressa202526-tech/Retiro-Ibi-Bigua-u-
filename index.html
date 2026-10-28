@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -9,6 +8,179 @@
   <title>Retiro de Carnaval 2027 | IBI Biguaçu</title>
 
   <link rel="stylesheet" href="style.css?v=20261026-11">
+
+  <!-- Novidades: galeria ampliada e botão de WhatsApp. -->
+  <style>
+    /* Apenas a seção de fotos: não altera o visual restante do site. */
+    .retiro-foto-abrir {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: zoom-in;
+    }
+    .retiro-foto-abrir img { display: block; width: 100%; height: auto; }
+    .retiro-ver-fotos {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 17px auto 0;
+      padding: 12px 20px;
+      border: 1px solid #d6a075;
+      border-radius: 999px;
+      background: #d58a50;
+      color: #20120d;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .retiro-ver-fotos:hover { background: #f0ae77; }
+    .retiro-ver-fotos:focus-visible,
+    .retiro-foto-abrir:focus-visible,
+    .retiro-galeria-modal button:focus-visible,
+    .retiro-whatsapp:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+    /* Janela grande com navegação por toque no celular. */
+    .retiro-galeria-modal {
+      width: min(96vw, 1000px);
+      max-width: 1000px;
+      height: min(87dvh, 770px);
+      max-height: 90dvh;
+      margin: auto;
+      padding: 0;
+      border: 1px solid #8d5738;
+      border-radius: 18px;
+      background: #191310;
+      color: #fff1e1;
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
+    }
+    .retiro-galeria-modal::backdrop { background: rgba(0,0,0,.86); }
+    .retiro-galeria-conteudo {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
+    .retiro-galeria-cabecalho {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 17px;
+      border-bottom: 1px solid #563929;
+      font-size: .95rem;
+      font-weight: 800;
+    }
+    .retiro-galeria-modal button {
+      appearance: none;
+      border: 1px solid #886349;
+      border-radius: 10px;
+      background: #38271f;
+      color: #fff1e1;
+      font: inherit;
+      font-weight: 700;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+    .retiro-galeria-modal button:hover { background: #533625; }
+    .retiro-galeria-fechar { min-width: 44px; min-height: 44px; }
+    .retiro-galeria-pista {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-inline: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      background: #0b0908;
+      touch-action: pan-x;
+    }
+    .retiro-galeria-pista::-webkit-scrollbar { display: none; }
+    .retiro-galeria-slide {
+      box-sizing: border-box;
+      flex: 0 0 100%;
+      min-width: 0;
+      height: 100%;
+      padding: 10px;
+      display: grid;
+      place-items: center;
+      scroll-snap-align: start;
+    }
+    .retiro-galeria-slide svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .retiro-galeria-controles {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 15px;
+      border-top: 1px solid #563929;
+    }
+    .retiro-galeria-contador { font-weight: 800; white-space: nowrap; }
+    .retiro-galeria-dica {
+      text-align: center;
+      margin: 0;
+      padding: 0 12px 12px;
+      color: #d6baa4;
+      font-size: .84rem;
+    }
+    @media (max-width: 560px) {
+      .retiro-galeria-modal { width: 100vw; height: 100dvh; max-height: 100dvh; border-radius: 0; }
+      .retiro-galeria-cabecalho { padding: 11px 14px; }
+      .retiro-galeria-slide { padding: 4px; }
+      .retiro-galeria-controles { padding: 9px 10px; }
+      .retiro-galeria-modal button { padding: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .retiro-galeria-pista { scroll-behavior: auto; }
+    }
+
+    /* Botão flutuante para dúvidas sobre o retiro. */
+    .retiro-whatsapp {
+      position: fixed;
+      right: max(15px, env(safe-area-inset-right));
+      bottom: max(16px, env(safe-area-inset-bottom));
+      z-index: 80;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border-radius: 999px;
+      padding: 13px 17px;
+      background: #25d366;
+      color: #073719;
+      font-size: .95rem;
+      font-weight: 800;
+      line-height: 1.1;
+      text-decoration: none;
+      box-shadow: 0 8px 23px rgba(0,0,0,.35);
+    }
+    .retiro-whatsapp:hover { background: #45e582; }
+
+
+    /* Inscrição infantil, Pix e autorização de imagem — sem mudar o estilo original. */
+    .retiro-extra { margin: 14px 0; padding: 16px; border: 1px solid #81563a; border-radius: 14px; background: rgba(30,20,14,.40); }
+    .retiro-extra label { display: block; margin: 11px 0 7px; font-weight: 700; }
+    .retiro-extra input:not([type="checkbox"]) { box-sizing: border-box; width: 100%; }
+    .retiro-extra[hidden], #pagamentoPix[hidden] { display: none !important; }
+    .retiro-nota { font-size: .9rem; line-height: 1.5; opacity: .92; }
+    .retiro-pix-imagem { display: block; width: min(100%,290px); height: auto; margin: 17px auto; border-radius: 12px; padding: 12px; background: white; box-sizing: border-box; }
+    .retiro-pix-codigo { box-sizing: border-box; width: 100%; max-width: 100%; min-height: 82px; padding: 12px; border-radius: 10px; font: 13px/1.6 monospace; border: 1px solid #987354; color: #20140f; background: #fff6ec; overflow-wrap: anywhere; }
+    .retiro-copiar { display: block; width: 100%; padding: 13px 15px; margin: 12px 0; border-radius: 10px; background: #d58a50; color: #25160d; font-weight: 800; border: none; cursor: pointer; }
+    .retiro-consentimento { margin-top: 15px; }
+    .retiro-consentimento input[type="checkbox"] { flex: 0 0 auto; }
+    .retiro-consentimento strong { font-weight: 800; }
+    .retiro-alerta { font-weight: 700; color: #ffbd82; }
+  </style>
 
   <!-- Verificação de segurança -->
   <script
@@ -79,14 +251,20 @@
       </p>
 
       <div class="local-foto">
-        <img
-          src="local-retiro.jpg.png"
-          alt="Montagem com fotos do Sítio Potecas"
-          loading="lazy"
-          decoding="async"
-          style="display:block;width:100%;max-width:100%;height:auto;"
-        >
+        <button class="retiro-foto-abrir" type="button" data-abrir-galeria
+                aria-label="Abrir galeria com oito fotos do Sítio Potecas">
+          <img
+            src="local-retiro.jpg.png"
+            alt="Montagem com fotos do Sítio Potecas. Toque para ampliar."
+            loading="lazy"
+            decoding="async"
+          >
+        </button>
       </div>
+
+      <button type="button" class="retiro-ver-fotos" data-abrir-galeria>
+        📷 Ver as 8 fotos ampliadas
+      </button>
 
       <p class="local-legenda">
         Sítio Potecas • Retiro de Carnaval 2027
@@ -123,7 +301,7 @@
           placeholder="Seu nome completo"
         >
 
-        <label for="telefone">WhatsApp</label>
+        <label for="telefone">WhatsApp (do responsável, se for criança)</label>
 
         <input
           id="telefone"
@@ -136,27 +314,26 @@
           placeholder="(48) 99999-9999"
         >
 
-        <label for="categoria">Categoria</label>
-
-        <select
-          id="categoria"
-          name="categoria"
-          required
-        >
-          <option value="adulto">
-            Adulto — R$ 350,00
-          </option>
-
-          <option value="crianca">
-            Criança (7 a 11 anos) — R$ 175,00
-          </option>
+        <label for="categoria">Categoria / faixa etária</label>
+        <select id="categoria" name="categoria" required>
+          <option value="adulto">12 anos ou mais — R$ 350,00</option>
+          <option value="crianca">Criança de 6 a 11 anos — R$ 175,00</option>
+          <option value="isento">Criança de 0 a 5 anos — isenta</option>
         </select>
+
+        <!-- Campos solicitados para quem inscreve crianças. -->
+        <div class="retiro-extra" id="dadosResponsavel" hidden>
+          <strong>Dados do responsável pela criança</strong>
+          <label for="responsavelNome">Nome completo do responsável legal</label>
+          <input id="responsavelNome" name="responsavelNome" type="text" maxlength="42" autocomplete="off" placeholder="Nome do pai, mãe ou responsável">
+          <p class="retiro-nota">Informe no WhatsApp acima o número do responsável. Cada criança deve ter seu próprio cadastro.</p>
+        </div>
 
         <div class="price">
           <small>Valor total</small>
           <strong id="total">R$ 350,00</strong>
           <span id="parcelas">
-            Até 3 parcelas no Pix ou dinheiro
+            Até 3 parcelas no Pix ou em dinheiro
           </span>
         </div>
 
@@ -174,7 +351,7 @@
           </option>
 
           <option value="dinheiro">
-            Dinheiro — até 3x com a organização
+            Dinheiro ou boleto — falar com a diretoria
           </option>
 
           <option value="online">
@@ -201,6 +378,25 @@
             Estou ciente de que o envio da pré-inscrição
             não garante minha vaga.
           </span>
+        </label>
+
+        <label class="check retiro-consentimento">
+          <input type="checkbox" id="autorizacaoImagem" name="autorizacaoImagem" value="sim">
+          <span>
+            <strong>Autorização de uso de imagem (opcional):</strong>
+            autorizo gratuitamente a IBI Biguaçu a utilizar fotografias e vídeos
+            em que eu apareça — ou em que apareça a criança pela qual sou responsável legal —
+            registrados durante o Retiro de Carnaval 2027, exclusivamente
+            para divulgação das atividades da igreja em redes sociais,
+            transmissões, vídeos e materiais institucionais.
+            Sei que posso não autorizar, sem perder a possibilidade de participar,
+            e solicitar a interrupção de novos usos à organização.
+          </span>
+        </label>
+
+        <label class="check retiro-consentimento" id="confirmacaoResponsavelBox" hidden>
+          <input type="checkbox" id="confirmacaoResponsavel">
+          <span>Declaro ser o pai, a mãe ou o responsável legal pela criança inscrita.</span>
         </label>
 
         <!-- CLOUDFLARE TURNSTILE -->
@@ -263,12 +459,22 @@
 
       <h2>Como funciona o pagamento?</h2>
 
-      <h3>Pix ou dinheiro</h3>
+      <h3>Pix</h3>
+      <p>Pix integral ou em até 3 parcelas combinadas com a organização. Envie sua pré-inscrição antes de realizar o pagamento.</p>
 
-      <p>
-        Pagamento combinado com a organização
-        em até 3 parcelas.
-      </p>
+      <div class="retiro-extra" id="pagamentoPix">
+        <h3>QR Code Pix do retiro</h3>
+        <p>Confira o nome do recebedor no seu banco e informe o valor combinado. O QR Code não tem valor fixo.</p>
+        <img src="qr-pix-retiro.png" class="retiro-pix-imagem" width="290" height="290" alt="QR Code Pix para pagamento do retiro">
+        <label for="codigoPixRetiro">Pix Copia e Cola</label>
+        <textarea id="codigoPixRetiro" class="retiro-pix-codigo" rows="3" readonly>00020126580014br.gov.bcb.pix013675bfe978-e273-4d4c-8241-19f8d53ad06b27600016BR.COM.PAGSEGURO0136FAA04536-872E-4BDF-A661-72A003733F735204594353039865802BR592569.406.316 ANDRESSA CAVAL6007Biguacu62290525PAGS000000000261028192045630492AE</textarea>
+        <button type="button" class="retiro-copiar" id="copiarPixRetiro">Copiar código Pix</button>
+        <p id="avisoPixRetiro" class="retiro-nota" role="status" aria-live="polite"></p>
+        <p class="retiro-nota">A organização confirma o recebimento manualmente. Não é necessário enviar dados bancários no formulário.</p>
+      </div>
+
+      <h3>Dinheiro ou boleto</h3>
+      <p>Fale com a diretoria para combinar o pagamento em até 3 parcelas.</p>
 
       <h3>Cartão de crédito</h3>
 
@@ -298,8 +504,226 @@
     </small>
   </footer>
 
-  <!-- SISTEMA DE INSCRIÇÕES E PAGBANK -->
+  <!-- WhatsApp da organização -->
+  <a class="retiro-whatsapp"
+     href="https://wa.me/5548996805977?text=Ol%C3%A1%21%20Gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20o%20Retiro%20de%20Carnaval%202027."
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Fale com a organização do retiro pelo WhatsApp">
+    <span aria-hidden="true">💬</span> Fale com a gente
+  </a>
+
+  <!-- Galeria ampliada: abre ao tocar na montagem ou no botão. -->
+  <dialog id="galeriaRetiro" class="retiro-galeria-modal" aria-labelledby="galeriaRetiroTitulo">
+    <div class="retiro-galeria-conteudo">
+      <div class="retiro-galeria-cabecalho">
+        <span id="galeriaRetiroTitulo">Fotos do Sítio Potecas</span>
+        <button type="button" class="retiro-galeria-fechar" id="fecharGaleria" aria-label="Fechar galeria">✕</button>
+      </div>
+      <div id="pistaGaleria" class="retiro-galeria-pista" aria-label="Fotos do local. Deslize para mudar a foto."></div>
+      <div class="retiro-galeria-controles">
+        <button type="button" id="fotoAnterior">← Anterior</button>
+        <span class="retiro-galeria-contador" id="contadorFotos" aria-live="polite">1 de 8</span>
+        <button type="button" id="fotoProxima">Próxima →</button>
+      </div>
+      <p class="retiro-galeria-dica">No celular, arraste a foto para o lado.</p>
+    </div>
+  </dialog>
+
+  <!-- SISTEMA DE INSCRIÇÕES E PAGBANK (preservado) -->
   <script src="script.js?v=20261026-6"></script>
+
+  <!-- Regras adicionais de inscrição, mantendo o script.js e o painel atuais. -->
+  <script>
+  (() => {
+    'use strict';
+    const byId = id => document.getElementById(id);
+    const categoria = byId('categoria');
+    const nome = byId('nome');
+    const responsavel = byId('responsavelNome');
+    const telefone = byId('telefone');
+    const blocoResponsavel = byId('dadosResponsavel');
+    const confirmacao = byId('confirmacaoResponsavel');
+    const confirmacaoBox = byId('confirmacaoResponsavelBox');
+    const valor = byId('total');
+    const parcelas = byId('parcelas');
+    const pagamento = byId('pagamento');
+    const botao = byId('botaoInscricao');
+    const aviso = byId('aviso');
+    const imagem = byId('autorizacaoImagem');
+    const dinheiro = pagamento.querySelector('option[value="dinheiro"]');
+
+    function atualizarCategoria() {
+      const infantil = categoria.value === 'crianca' || categoria.value === 'isento';
+      blocoResponsavel.hidden = !infantil;
+      confirmacaoBox.hidden = !infantil;
+      responsavel.required = infantil;
+      confirmacao.required = infantil;
+      if (!infantil) confirmacao.checked = false;
+      if (categoria.value === 'isento') {
+        valor.textContent = 'Isento — R$ 0,00';
+        parcelas.textContent = 'Cadastro gratuito com a organização';
+        pagamento.disabled = true;
+        botao.textContent = 'Solicitar inscrição gratuita no WhatsApp';
+      } else {
+        pagamento.disabled = false;
+        botao.textContent = 'Enviar pré-inscrição';
+        // As duas categorias pagas seguem os valores combinados.
+        valor.textContent = categoria.value === 'crianca' ? 'R$ 175,00' : 'R$ 350,00';
+        parcelas.textContent = 'Até 3 parcelas no Pix ou em dinheiro';
+      }
+    }
+    categoria.addEventListener('change', atualizarCategoria);
+    nome.addEventListener('input', () => { delete nome.dataset.nomeOriginal; });
+    atualizarCategoria();
+
+    // Complementa a identificação com o nome do responsável e a autorização,
+    // no registro já existente. Não altera colunas nem tenta gravar um valor errado.
+    function nomeParaRegistro() {
+      const original = (nome.dataset.nomeOriginal || nome.value).trim();
+      if (categoria.value === 'crianca') {
+        const base = original.slice(0,52);
+        const resp = responsavel.value.trim().slice(0,35);
+        return `${base} | Resp: ${resp} | Imagem: ${imagem.checked ? 'SIM' : 'NAO'}`.slice(0,120);
+      }
+      return `${original.slice(0,99)} | Imagem: ${imagem.checked ? 'SIM' : 'NAO'}`.slice(0,120);
+    }
+
+    // `capture` é essencial para que a opção isenta NÃO seja cadastrada
+    // incorretamente como uma inscrição de R$175 na função antiga do Supabase.
+    byId('formInscricao').addEventListener('submit', event => {
+      if (!byId('formInscricao').reportValidity()) return;
+      if (categoria.value === 'isento') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        const dados = [
+          'Olá! Quero cadastrar uma criança ISENTA (0 a 5 anos) no Retiro 2027.',
+          `Criança: ${nome.value.trim()}`,
+          `Responsável legal: ${responsavel.value.trim()}`,
+          `WhatsApp: ${telefone.value.trim()}`,
+          `Uso de imagem autorizado: ${imagem.checked ? 'SIM' : 'NÃO'}`,
+          'Peço a inclusão da criança na lista de participantes.'
+        ].join('\n');
+        aviso.textContent = 'Você será encaminhado ao WhatsApp para solicitar a inclusão gratuita. A organização confirmará o cadastro.';
+        window.open('https://wa.me/5548996805977?text=' + encodeURIComponent(dados), '_blank', 'noopener,noreferrer');
+        return;
+      }
+      if (!nome.dataset.nomeOriginal) nome.dataset.nomeOriginal = nome.value.trim();
+      nome.value = nomeParaRegistro();
+      // O script.js original continua realizando o cadastro (Turnstile + Supabase).
+    }, true);
+
+    byId('copiarPixRetiro').addEventListener('click', async () => {
+      const campo = byId('codigoPixRetiro');
+      const mensagem = byId('avisoPixRetiro');
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(campo.value);
+          mensagem.textContent = 'Código Pix copiado!';
+        } else {
+          campo.focus(); campo.select();
+          mensagem.textContent = 'Código selecionado. Use a opção Copiar do celular.';
+        }
+      } catch (e) {
+        campo.focus(); campo.select();
+        mensagem.textContent = 'Selecione o código acima e copie para o aplicativo do banco.';
+      }
+    });
+    if (dinheiro) dinheiro.textContent = 'Dinheiro ou boleto — falar com a diretoria';
+  })();
+  </script>
+
+  <!-- Galeria: aproveita as 8 fotos da montagem já existente, sem novos uploads. -->
+  <script>
+    (() => {
+      const dialogo = document.getElementById('galeriaRetiro');
+      const pista = document.getElementById('pistaGaleria');
+      const contador = document.getElementById('contadorFotos');
+      const anterior = document.getElementById('fotoAnterior');
+      const proxima = document.getElementById('fotoProxima');
+      const fechar = document.getElementById('fecharGaleria');
+      const svgNS = 'http://www.w3.org/2000/svg';
+
+      // Recortes da imagem existente (montagem de 1000 × 563 pixels).
+      const fotos = [
+        { descricao: 'Vista aérea do sítio', recorte: [4, 4, 434, 359] },
+        { descricao: 'Quarto', recorte: [444, 4, 336, 214] },
+        { descricao: 'Banheiro', recorte: [784, 4, 212, 359] },
+        { descricao: 'Cozinha', recorte: [444, 223, 335, 139] },
+        { descricao: 'Parte externa do sítio', recorte: [4, 369, 258, 189] },
+        { descricao: 'Piscina', recorte: [267, 369, 291, 189] },
+        { descricao: 'Área de recreação', recorte: [562, 369, 198, 189] },
+        { descricao: 'Salão com mesas', recorte: [765, 369, 231, 189] }
+      ];
+
+      fotos.forEach((foto) => {
+        const slide = document.createElement('div');
+        slide.className = 'retiro-galeria-slide';
+        const svg = document.createElementNS(svgNS, 'svg');
+        svg.setAttribute('viewBox', foto.recorte.join(' '));
+        svg.setAttribute('role', 'img');
+        svg.setAttribute('aria-label', foto.descricao);
+        const imagem = document.createElementNS(svgNS, 'image');
+        imagem.setAttribute('href', 'local-retiro.jpg.png');
+        imagem.setAttribute('width', '1000');
+        imagem.setAttribute('height', '563');
+        imagem.setAttribute('x', '0');
+        imagem.setAttribute('y', '0');
+        svg.appendChild(imagem);
+        slide.appendChild(svg);
+        pista.appendChild(slide);
+      });
+
+      let indiceAtual = 0;
+      let posicaoOriginal = null;
+
+      function atualizarContador() {
+        contador.textContent = `${indiceAtual + 1} de ${fotos.length}`;
+        anterior.disabled = indiceAtual === 0;
+        proxima.disabled = indiceAtual === fotos.length - 1;
+      }
+
+      function irParaFoto(numero, suave = true) {
+        indiceAtual = Math.max(0, Math.min(fotos.length - 1, numero));
+        pista.scrollTo({
+          left: indiceAtual * pista.clientWidth,
+          behavior: suave && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'auto'
+        });
+        atualizarContador();
+      }
+
+      function abrirGaleria() {
+        posicaoOriginal = document.activeElement;
+        dialogo.showModal();
+        irParaFoto(0, false);
+        fechar.focus();
+      }
+
+      document.querySelectorAll('[data-abrir-galeria]').forEach((botao) => {
+        botao.addEventListener('click', abrirGaleria);
+      });
+      fechar.addEventListener('click', () => dialogo.close());
+      anterior.addEventListener('click', () => irParaFoto(indiceAtual - 1));
+      proxima.addEventListener('click', () => irParaFoto(indiceAtual + 1));
+
+      dialogo.addEventListener('close', () => {
+        if (posicaoOriginal && typeof posicaoOriginal.focus === 'function') posicaoOriginal.focus();
+      });
+      dialogo.addEventListener('keydown', (evento) => {
+        if (evento.key === 'ArrowLeft') { evento.preventDefault(); irParaFoto(indiceAtual - 1); }
+        if (evento.key === 'ArrowRight') { evento.preventDefault(); irParaFoto(indiceAtual + 1); }
+      });
+      pista.addEventListener('scroll', () => {
+        if (!pista.clientWidth) return;
+        const novoIndice = Math.max(0, Math.min(fotos.length - 1, Math.round(pista.scrollLeft / pista.clientWidth)));
+        if (novoIndice !== indiceAtual) {
+          indiceAtual = novoIndice;
+          atualizarContador();
+        }
+      }, { passive: true });
+      atualizarContador();
+    })();
+  </script>
 
 </body>
 </html>
