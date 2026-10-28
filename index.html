@@ -173,7 +173,7 @@
     .retiro-extra input:not([type="checkbox"]) { box-sizing: border-box; width: 100%; }
     .retiro-extra[hidden], #pagamentoPix[hidden] { display: none !important; }
     .retiro-nota { font-size: .9rem; line-height: 1.5; opacity: .92; }
-    .retiro-pix-imagem { display: block; width: min(100%,290px); height: auto; margin: 17px auto; border-radius: 12px; padding: 12px; background: white; box-sizing: border-box; }
+    .retiro-pix-imagem { display: block; width: min(100%,205px); height: auto; margin: 17px auto; border-radius: 12px; padding: 12px; background: white; box-sizing: border-box; }
     .retiro-pix-codigo { box-sizing: border-box; width: 100%; max-width: 100%; min-height: 82px; padding: 12px; border-radius: 10px; font: 13px/1.6 monospace; border: 1px solid #987354; color: #20140f; background: #fff6ec; overflow-wrap: anywhere; }
     .retiro-copiar { display: block; width: 100%; padding: 13px 15px; margin: 12px 0; border-radius: 10px; background: #d58a50; color: #25160d; font-weight: 800; border: none; cursor: pointer; }
     .retiro-consentimento { margin-top: 15px; }
@@ -346,6 +346,7 @@
           name="pagamento"
           required
         >
+          <option value="" selected disabled>Selecione a forma de pagamento</option>
           <option value="pix">
             Pix — até 3x com a organização
           </option>
@@ -358,6 +359,19 @@
             Cartão de crédito — PagBank até 4x
           </option>
         </select>
+
+        <!-- Pix aparece somente depois de escolher Pix na forma de pagamento. -->
+
+      <div class="retiro-extra" id="pagamentoPix" hidden aria-live="polite">
+        <h3>Pagamento por Pix</h3>
+        <p>Você escolheu Pix. Preencha seus dados, envie a pré-inscrição e use o QR Code ou o Pix Copia e Cola para pagar o valor combinado. Confira o destinatário no aplicativo do banco.</p>
+        <img src="qr-pix-retiro.png" class="retiro-pix-imagem" width="205" height="205" alt="QR Code Pix para pagamento do retiro">
+        <label for="codigoPixRetiro">Pix Copia e Cola</label>
+        <textarea id="codigoPixRetiro" class="retiro-pix-codigo" rows="3" readonly>00020126580014br.gov.bcb.pix013675bfe978-e273-4d4c-8241-19f8d53ad06b27600016BR.COM.PAGSEGURO0136FAA04536-872E-4BDF-A661-72A003733F735204594353039865802BR592569.406.316 ANDRESSA CAVAL6007Biguacu62290525PAGS000000000261028192045630492AE</textarea>
+        <button type="button" class="retiro-copiar" id="copiarPixRetiro">Copiar código Pix</button>
+        <p id="avisoPixRetiro" class="retiro-nota" role="status" aria-live="polite"></p>
+        <p class="retiro-nota">A organização confirma o recebimento manualmente. Não é necessário enviar dados bancários no formulário.</p>
+      </div>
 
         <p class="muted">
           No cartão, o parcelamento pode ter
@@ -460,18 +474,7 @@
       <h2>Como funciona o pagamento?</h2>
 
       <h3>Pix</h3>
-      <p>Pix integral ou em até 3 parcelas combinadas com a organização. Envie sua pré-inscrição antes de realizar o pagamento.</p>
-
-      <div class="retiro-extra" id="pagamentoPix">
-        <h3>QR Code Pix do retiro</h3>
-        <p>Confira o nome do recebedor no seu banco e informe o valor combinado. O QR Code não tem valor fixo.</p>
-        <img src="qr-pix-retiro.png" class="retiro-pix-imagem" width="290" height="290" alt="QR Code Pix para pagamento do retiro">
-        <label for="codigoPixRetiro">Pix Copia e Cola</label>
-        <textarea id="codigoPixRetiro" class="retiro-pix-codigo" rows="3" readonly>00020126580014br.gov.bcb.pix013675bfe978-e273-4d4c-8241-19f8d53ad06b27600016BR.COM.PAGSEGURO0136FAA04536-872E-4BDF-A661-72A003733F735204594353039865802BR592569.406.316 ANDRESSA CAVAL6007Biguacu62290525PAGS000000000261028192045630492AE</textarea>
-        <button type="button" class="retiro-copiar" id="copiarPixRetiro">Copiar código Pix</button>
-        <p id="avisoPixRetiro" class="retiro-nota" role="status" aria-live="polite"></p>
-        <p class="retiro-nota">A organização confirma o recebimento manualmente. Não é necessário enviar dados bancários no formulário.</p>
-      </div>
+      <p>Pix integral ou em até 3 parcelas combinadas com a organização. O QR Code aparece somente quando você escolhe Pix no formulário de inscrição.</p>
 
       <h3>Dinheiro ou boleto</h3>
       <p>Fale com a diretoria para combinar o pagamento em até 3 parcelas.</p>
@@ -573,9 +576,19 @@
         parcelas.textContent = 'Até 3 parcelas no Pix ou em dinheiro';
       }
     }
-    categoria.addEventListener('change', atualizarCategoria);
+    const painelPix = byId('pagamentoPix');
+    function atualizarPix() {
+      // Não mostra o Pix no conteúdo geral nem para inscrições isentas.
+      painelPix.hidden = pagamento.disabled || pagamento.value !== 'pix';
+    }
+    categoria.addEventListener('change', () => {
+      atualizarCategoria();
+      atualizarPix();
+    });
+    pagamento.addEventListener('change', atualizarPix);
     nome.addEventListener('input', () => { delete nome.dataset.nomeOriginal; });
     atualizarCategoria();
+    atualizarPix();
 
     // Complementa a identificação com o nome do responsável e a autorização,
     // no registro já existente. Não altera colunas nem tenta gravar um valor errado.
